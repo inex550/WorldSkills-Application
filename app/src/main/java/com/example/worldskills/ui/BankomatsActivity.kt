@@ -29,8 +29,6 @@ class BankomatsActivity : AppCompatActivity() {
         binding = ActivityBankomatsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = BankomatAdapter()
-
         binding.bankomatsRv.layoutManager = LinearLayoutManager(this)
         binding.bankomatsRv.adapter = adapter
 

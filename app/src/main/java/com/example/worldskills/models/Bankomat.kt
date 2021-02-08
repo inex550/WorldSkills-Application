@@ -1,5 +1,6 @@
 package com.example.worldskills.models
 
+import com.google.android.gms.maps.model.LatLng
 import java.time.LocalTime
 import java.util.*
 
@@ -9,6 +10,5 @@ data class Bankomat(
     val name: String,
     val workStart: Calendar,
     val workEnd: Calendar,
-    val geoLat: Double,
-    val geoLng: Double
+    val geo: LatLng,
 )

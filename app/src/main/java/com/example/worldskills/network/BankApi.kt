@@ -1,6 +1,7 @@
 package com.example.worldskills.network
 
 import com.example.worldskills.models.Bankomat
+import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -10,7 +11,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.0.128:8080"
+    private const val BASE_URL = "http://192.168.1.107:8080"
 
     private const val BANKOMATS_URL = "/bankomats"
 
@@ -37,8 +38,7 @@ object BankApi {
                 name = bnkJson.getString("name"),
                 workStart = workStart,
                 workEnd = workEnd,
-                geoLat = bnkJson.getDouble("geo_lat"),
-                geoLng = bnkJson.getDouble("geo_lng")
+                geo = LatLng(bnkJson.getDouble("geo_lat"), bnkJson.getDouble("geo_lng"))
             ))
         }
 

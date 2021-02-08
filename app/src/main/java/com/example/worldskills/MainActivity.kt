@@ -9,6 +9,7 @@ import android.util.Log
 import com.example.worldskills.databinding.ActivityMainBinding
 import com.example.worldskills.network.CbrApi
 import com.example.worldskills.ui.BankomatsActivity
+import com.example.worldskills.ui.BankomatsMapsActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }.start()
 
         binding.toBranchesBtn.setOnClickListener {
-            val intent = Intent(this, BankomatsActivity::class.java)
+            val intent = Intent(this, BankomatsMapsActivity::class.java)
             startActivity(intent)
         }
 

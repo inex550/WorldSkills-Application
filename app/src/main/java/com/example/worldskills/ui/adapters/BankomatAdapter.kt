@@ -1,8 +1,8 @@
 package com.example.worldskills.ui.adapters
 
 import android.graphics.Color
-import android.text.format.Time
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worldskills.databinding.BankomatsListItemBinding
@@ -10,11 +10,19 @@ import com.example.worldskills.models.Bankomat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BankomatAdapter: RecyclerView.Adapter<BankomatAdapter.ViewHolder>() {
+class BankomatAdapter(
+    val listener: OnItemClickListener
+): RecyclerView.Adapter<BankomatAdapter.ViewHolder>() {
 
-    class ViewHolder (
+    val sdf = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+
+    inner class ViewHolder (
             private val binding: BankomatsListItemBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ): RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+
+        init {
+            binding.root.setOnClickListener(this)
+        }
 
         fun bind(bankomat: Bankomat) {
             binding.streetTv.text = bankomat.street
@@ -31,15 +39,16 @@ class BankomatAdapter: RecyclerView.Adapter<BankomatAdapter.ViewHolder>() {
             }
         }
 
-        companion object {
-            fun from(parent: ViewGroup): ViewHolder {
-                val inflater = LayoutInflater.from(parent.context)
-                val binding = BankomatsListItemBinding.inflate(inflater, parent, false)
-                return ViewHolder(binding)
+        override fun onClick(view: View?) {
+            val position = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(adapterPosition)
             }
-
-            val sdf = SimpleDateFormat("HH:mm", Locale.ENGLISH)
         }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 
     var data: List<Bankomat> = listOf()
@@ -49,7 +58,9 @@ class BankomatAdapter: RecyclerView.Adapter<BankomatAdapter.ViewHolder>() {
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = BankomatsListItemBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
