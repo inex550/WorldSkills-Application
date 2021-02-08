@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.BankomatsActivity">
+    tools:context=".ui.ValutesActivity"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,11 +14,20 @@
         android:background="@color/gray_light">
 
         <TextView
+            android:id="@+id/current_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            tools:text="31.12.2020"
             android:layout_centerVertical="true"
-            android:text="Отделения и банкоматы"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:layout_centerVertical="true"
+            android:text="Цена"/>
 
         <View
             android:layout_width="match_parent"
@@ -28,9 +38,8 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bankomats_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="18"/>
+        android:layout_weight="19"/>
 
 </LinearLayout>

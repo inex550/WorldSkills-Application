@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object CbrApi {
-    private const val BASE_URL = "http://www.cbr.ru/scripts/XML_daily.asp?date_req="
+    private const val BASE_URL = "https://www.cbr.ru/scripts/XML_daily.asp?date_req="
 
     fun loadValutes(date: Calendar): List<Valute> {
         val strDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(date.time)

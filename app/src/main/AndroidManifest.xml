@@ -10,8 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WorldSkills">
-        <activity android:name=".ui.BankomatsActivity"></activity>
+        android:theme="@style/Theme.WorldSkills"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.ValutesActivity"></activity>
+        <activity android:name=".ui.BankomatsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
