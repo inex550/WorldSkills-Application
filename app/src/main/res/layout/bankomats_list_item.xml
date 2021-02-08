@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/street_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Москва, ул. Вавилова, д. 7"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/type_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Банкомат"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"/>
+
+    <TextView
+        android:id="@+id/is_work_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Работает"
+        android:textColor="@android:color/holo_green_light"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/type_tv"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
+        android:id="@+id/end_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="20:00"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
