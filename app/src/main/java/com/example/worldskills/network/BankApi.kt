@@ -1,22 +1,23 @@
 package com.example.worldskills.network
 
+import com.example.worldskills.models.BankValute
 import com.example.worldskills.models.Bankomat
 import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
+import org.json.JSONObject
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.128:8080"
 
-    private const val BANKOMATS_URL = "/bankomats"
+    private const val BANKOMATS_METHOD = "/bankomats"
+    private const val VALUTE_METHID = "/valute"
 
     fun loadBankomats(): List<Bankomat> {
-        val response = URL(BASE_URL + BANKOMATS_URL).readText()
+        val response = URL(BASE_URL + BANKOMATS_METHOD).readText()
 
         val bnks = mutableListOf<Bankomat>()
 
@@ -43,5 +44,26 @@ object BankApi {
         }
 
         return bnks
+    }
+
+    fun loadValutes(): Map<String, BankValute> {
+        val response = URL(BASE_URL + BANKOMATS_METHOD).readText()
+
+        val valutes = mutableMapOf<String, BankValute>()
+
+        val valutesJson = JSONArray(response)
+        for (i in 0 until valutesJson.length()) {
+            val valuteJson = valutesJson.getJSONObject(i)
+            val charCode =valuteJson.getString("charCode")
+            val valute = BankValute(
+                buy = valuteJson.getDouble("buy"),
+                cell = valuteJson.getDouble("cell"),
+                charCode = charCode
+            )
+
+            valutes[charCode] = valute
+        }
+
+        return valutes
     }
 }

@@ -3,10 +3,53 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="60dp"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/char_code_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="USD"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/name_val_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Американский доллар"
+        android:layout_below="@id/char_code_tv"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/buy_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="64,95"
+        android:layout_centerInParent="true"/>
 
     <ImageView
+        android:id="@+id/buy_arrow_iv"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:src="@drawable/ic_arrow_up"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/buy_tv"/>
+
+    <TextView
+        android:id="@+id/cell_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="62,74"
+        android:layout_toStartOf="@id/cell_arrow_iv"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+        android:id="@+id/cell_arrow_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:src="@drawable/ic_arrow_down"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
