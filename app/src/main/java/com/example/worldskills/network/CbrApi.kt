@@ -1,6 +1,8 @@
 package com.example.worldskills.network
 
 import com.example.worldskills.models.Valute
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,7 +15,7 @@ object CbrApi {
     fun loadValutes(date: Calendar): List<Valute> {
         val strDate = sdf.format(date.time)
 
-        val response = URL(BASE_URL + strDate).readText()
+        val response = NetworkService.get(BASE_URL + strDate, "Windows-1251")
 
         return ValuteParser.parse(response)
     }

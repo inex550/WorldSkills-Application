@@ -5,11 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.example.worldskills.databinding.ActivityMainBinding
 import com.example.worldskills.network.CbrApi
-import com.example.worldskills.ui.BankomatsActivity
 import com.example.worldskills.ui.BankomatsMapsActivity
+import com.example.worldskills.ui.ValutesActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -51,7 +50,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.toExchangesBtn.setOnClickListener {
-
+            val intent = Intent(this, ValutesActivity::class.java)
+            startActivity(intent)
         }
 
         binding.signInBtn.setOnClickListener {

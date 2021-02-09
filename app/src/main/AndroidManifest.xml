@@ -35,7 +35,6 @@
             android:name=".ui.BankomatsMapsActivity"
             android:label="@string/title_activity_bankomats_maps"/>
         <activity android:name=".ui.ValutesActivity" />
-        <activity android:name=".ui.BankomatsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
