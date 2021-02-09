@@ -8,6 +8,7 @@ import android.os.Looper
 import com.example.worldskills.databinding.ActivityMainBinding
 import com.example.worldskills.network.CbrApi
 import com.example.worldskills.ui.BankomatsMapsActivity
+import com.example.worldskills.ui.LoginDialogFragment
 import com.example.worldskills.ui.ValutesActivity
 import java.util.*
 
@@ -55,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.signInBtn.setOnClickListener {
-
+            val loginDialog = LoginDialogFragment()
+            loginDialog.show(supportFragmentManager, "login_dialog")
         }
     }
 

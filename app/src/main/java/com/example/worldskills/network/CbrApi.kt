@@ -1,9 +1,6 @@
 package com.example.worldskills.network
 
 import com.example.worldskills.models.Valute
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
