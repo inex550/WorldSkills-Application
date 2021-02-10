@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import com.example.worldskills.databinding.ActivityMainBinding
+import com.example.worldskills.network.BankApi
 import com.example.worldskills.network.CbrApi
 import com.example.worldskills.ui.BankomatsMapsActivity
 import com.example.worldskills.ui.LoginDialogFragment
+import com.example.worldskills.ui.UserActivity
 import com.example.worldskills.ui.ValutesActivity
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LoginDialogFragment.OnSignInClickListener {
 
     fun loadUsdEur() {
         val valutes = CbrApi.loadValutes(Calendar.getInstance())
@@ -33,6 +35,24 @@ class MainActivity : AppCompatActivity() {
             binding.eurCourse.text = eur
         }
     }
+
+    fun loginQuery(login: String, password: String) {
+        val userSecret = BankApi.login(login, password)
+
+        if (userSecret == null)
+            Handler(Looper.getMainLooper()).post {
+                loginDialog.setError("Не правильное имя пользователя или пароль")
+            }
+        else {
+            val intent = Intent(this, UserActivity::class.java)
+            intent.putExtra("user_secret", userSecret)
+            startActivity(intent)
+
+            loginDialog.dismiss()
+        }
+    }
+
+    lateinit var loginDialog: LoginDialogFragment
 
     lateinit var binding: ActivityMainBinding
 
@@ -56,12 +76,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.signInBtn.setOnClickListener {
-            val loginDialog = LoginDialogFragment()
+            loginDialog = LoginDialogFragment(this)
             loginDialog.show(supportFragmentManager, "login_dialog")
         }
     }
 
     companion object {
         const val TAG = "MainActivityTAG"
+    }
+
+    override fun onSignInClick(login: String, password: String) {
+        if (login.isEmpty() || password.isEmpty())
+            loginDialog.setError("Не все поля заполнены")
+        else Thread {
+            loginQuery(login, password)
+        }.start()
     }
 }

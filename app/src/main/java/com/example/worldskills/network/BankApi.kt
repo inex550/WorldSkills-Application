@@ -1,7 +1,9 @@
 package com.example.worldskills.network
 
+import android.service.autofill.UserData
 import com.example.worldskills.models.BankValute
 import com.example.worldskills.models.Bankomat
+import com.example.worldskills.models.UserSecret
 import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,13 +13,14 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.49:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
+    private const val LOGIN_METHOD = "/login"
 
     fun loadBankomats(): List<Bankomat> {
-        val response = URL(BASE_URL + BANKOMATS_METHOD).readText()
+        val (_, response) = NetworkService.get(BASE_URL + BANKOMATS_METHOD)
 
         val bnks = mutableListOf<Bankomat>()
 
@@ -47,7 +50,7 @@ object BankApi {
     }
 
     fun loadValutes(): Map<String, BankValute> {
-        val response = URL(BASE_URL + VALUTE_METHOD).readText()
+        val (code, response) = NetworkService.get(BASE_URL + VALUTE_METHOD)
 
         val valutes = mutableMapOf<String, BankValute>()
 
@@ -65,5 +68,24 @@ object BankApi {
         }
 
         return valutes
+    }
+
+    fun login(login: String, password: String): UserSecret? {
+        val requestJson = JSONObject()
+                .put("login", login)
+                .put("password", password)
+
+        val (code, response) = NetworkService.postJson(BASE_URL + LOGIN_METHOD, requestJson)
+
+        if (code != 200)
+            return null
+
+        val responseJson = JSONObject(response)
+
+        val respLogin = responseJson.getString("login")
+        val respToken = responseJson.getString("token")
+        val respId = responseJson.getInt("id")
+
+        return UserSecret(respLogin, respToken, respId)
     }
 }
