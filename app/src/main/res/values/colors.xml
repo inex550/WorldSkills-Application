@@ -11,4 +11,6 @@
     <color name="gray_light">#D3D3D3</color>
     <color name="gray_dark1">#474747</color>
     <color name="gray_dark2">#323232</color>
+
+    <color name="purple">#653495</color>
 </resources>

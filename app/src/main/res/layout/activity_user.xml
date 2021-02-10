@@ -8,8 +8,57 @@
     tools:context=".ui.UserActivity">
 
     <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray_dark2"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/profile_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:src="@drawable/ic_profile"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/profile_iv"
+            android:layout_toStartOf="@id/logout_iv"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/user_action_bar_search_et_backgroud"
+            android:hint="Search peaple &amp; places"
+            android:textSize="12sp"
+            android:padding="8dp"/>
+
+        <ImageView
+            android:id="@+id/logout_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/logout"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar"
+        android:background="@color/gray_dark1"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_dark2"
+        app:itemIconTint="@color/user_activity_btv_color"
+        app:itemTextColor="@color/user_activity_btv_color"
+        app:menu="@menu/user_activity_bottom_nav_menu"/>
 
 </RelativeLayout>
