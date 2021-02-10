@@ -35,4 +35,26 @@ object NetworkService {
             return Pair(responseCode, isr.readText())
         }
     }
+
+    fun deleteJson(url: String, json: JSONObject, encoding: String="utf-8"): Pair<Int, String> {
+        with (URL(url).openConnection() as HttpURLConnection) {
+            requestMethod = "DELETE"
+            setRequestProperty("Content-Type", "application/json")
+
+            doOutput = true
+
+            val osw = OutputStreamWriter(outputStream, encoding)
+            osw.write(json.toString())
+            osw.close()
+
+            val connInputStream = if (responseCode >= 400)
+                errorStream
+            else inputStream
+
+            val isr = InputStreamReader(connInputStream)
+            val response = isr.readText()
+
+            return Pair(responseCode, response)
+        }
+    }
 }

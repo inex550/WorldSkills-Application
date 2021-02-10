@@ -13,11 +13,12 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.0.49:8080"
+    private const val BASE_URL = "http://192.168.1.107:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
     private const val LOGIN_METHOD = "/login"
+    private const val LOGOUT_METHOD = "/logout"
 
     fun loadBankomats(): List<Bankomat> {
         val (_, response) = NetworkService.get(BASE_URL + BANKOMATS_METHOD)
@@ -87,5 +88,15 @@ object BankApi {
         val respId = responseJson.getInt("id")
 
         return UserSecret(respLogin, respToken, respId)
+    }
+
+    fun logout(userSecret: UserSecret): Boolean {
+        val requestJson = JSONObject()
+            .put("id", userSecret.id)
+            .put("token", userSecret.token)
+
+        val (code, _) = NetworkService.deleteJson(BASE_URL + LOGOUT_METHOD, requestJson)
+
+        return code == 200
     }
 }
