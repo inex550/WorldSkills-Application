@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Дебютовая карта"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/image_iv"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/mir"/>
+
+    <TextView
+        android:id="@+id/num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1234...4321"
+        android:textSize="12dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@id/image_iv"/>
+
+    <TextView
+        android:id="@+id/cash_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="22000"
+        android:textSize="12dp"
+        android:layout_toStartOf="@id/rubs_tv"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/rubs_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" рублей"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>
