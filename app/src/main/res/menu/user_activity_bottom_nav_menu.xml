@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/home_btv_item"
         android:title="Главная"
         android:icon="@drawable/home"/>
 
     <item
+        android:id="@+id/buys_btv_item"
         android:title="Платежи"
         android:icon="@drawable/list"/>
 
     <item
+        android:id="@+id/history_btv_item"
         android:title="История"
         android:icon="@drawable/clock"/>
 
     <item
+        android:id="@+id/dialogs_btv_item"
         android:title="Диалоги"
         android:icon="@drawable/msg"/>
 </menu>

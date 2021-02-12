@@ -1,31 +1,34 @@
 package com.example.worldskills.network
 
-import android.service.autofill.UserData
-import com.example.worldskills.models.BankValute
-import com.example.worldskills.models.Bankomat
-import com.example.worldskills.models.UserSecret
+import com.example.worldskills.models.*
 import com.google.android.gms.maps.model.LatLng
 import org.json.JSONArray
 import org.json.JSONObject
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.34:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
     private const val LOGIN_METHOD = "/login"
     private const val LOGOUT_METHOD = "/logout"
 
+    private const val GETCARDS_METHOD = "/getcards"
+    private const val GETCHECKS_METHOD = "/getcheck"
+    private const val GETCREDITS_METHOD = "/getcredits"
+
+
+    val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
+    val sdfDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+
+
     fun loadBankomats(): List<Bankomat> {
         val (_, response) = NetworkService.get(BASE_URL + BANKOMATS_METHOD)
 
         val bnks = mutableListOf<Bankomat>()
-
-        val sdf = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
 
         val bnksJson = JSONArray(response)
         for (i in 0 until bnksJson.length()) {
@@ -34,8 +37,8 @@ object BankApi {
             val workStart = Calendar.getInstance()
             val workEnd = Calendar.getInstance()
 
-            workStart.time = sdf.parse(bnkJson.getString("work_start"))!!
-            workEnd.time = sdf.parse(bnkJson.getString("work_end"))!!
+            workStart.time = sdfTime.parse(bnkJson.getString("work_start"))!!
+            workEnd.time = sdfTime.parse(bnkJson.getString("work_end"))!!
 
             bnks.add(Bankomat(
                 street = bnkJson.getString("street"),
@@ -71,7 +74,7 @@ object BankApi {
         return valutes
     }
 
-    fun login(login: String, password: String): UserSecret? {
+    fun login(login: String, password: String): String? {
         val requestJson = JSONObject()
                 .put("login", login)
                 .put("password", password)
@@ -81,22 +84,85 @@ object BankApi {
         if (code != 200)
             return null
 
-        val responseJson = JSONObject(response)
-
-        val respLogin = responseJson.getString("login")
-        val respToken = responseJson.getString("token")
-        val respId = responseJson.getInt("id")
-
-        return UserSecret(respLogin, respToken, respId)
+        return JSONObject(response).getString("token")
     }
 
-    fun logout(userSecret: UserSecret): Boolean {
-        val requestJson = JSONObject()
-            .put("id", userSecret.id)
-            .put("token", userSecret.token)
+    fun logout(token: String): Boolean {
+        val tokenJson = JSONObject()
+            .put("token", token)
 
-        val (code, _) = NetworkService.deleteJson(BASE_URL + LOGOUT_METHOD, requestJson)
+        val (code, _) = NetworkService.deleteJson(BASE_URL + LOGOUT_METHOD, tokenJson)
 
         return code == 200
+    }
+
+    fun getCards(token: String): List<Card>? {
+        val tokenJson = JSONObject().put("token", token)
+        val (code, response) = NetworkService.postJson(BASE_URL + GETCARDS_METHOD, tokenJson)
+
+        if (code != 200) return null
+
+        val cards = mutableListOf<Card>()
+
+        val cardsJson = JSONArray(response)
+        for (i in 0 until cardsJson.length()) {
+            val cardJson = cardsJson.getJSONObject(i)
+            val card = Card(
+                    name = cardJson.getString("name"),
+                    num = cardJson.getString("num"),
+                    type = cardJson.getString("card_type"),
+                    cash = cardJson.getInt("cash")
+            )
+            cards.add(card)
+        }
+
+        return cards
+    }
+
+    fun getChecks(token: String): List<Check>? {
+        val tokenJson = JSONObject().put("token", token)
+        val (code, response) = NetworkService.postJson(BASE_URL + GETCHECKS_METHOD, tokenJson)
+
+        if (code != 200) return null
+
+        val checks = mutableListOf<Check>()
+
+        val checksJson = JSONArray(response)
+        for (i in 0 until checksJson.length()) {
+            val checkJson = checksJson.getJSONObject(i)
+            val check = Check(
+                    num = checkJson.getString("num"),
+                    cash = checkJson.getInt("cash")
+            )
+            checks.add(check)
+        }
+
+        return checks
+    }
+
+    fun getCredits(token: String): List<Credit>? {
+        val tokenJson = JSONObject().put("token", token)
+        val (code, response) = NetworkService.postJson(BASE_URL + GETCREDITS_METHOD, tokenJson)
+
+        if (code != 200) return null
+
+        val credits = mutableListOf<Credit>()
+
+        val creditsJson = JSONArray(response)
+        for (i in 0 until creditsJson.length()) {
+            val creditJson = creditsJson.getJSONObject(i)
+
+            val endDate = Calendar.getInstance()
+            endDate.time = sdfDate.parse(creditJson.getString("end_date"))!!
+
+            val credit = Credit(
+                    name = creditJson.getString("name"),
+                    cash = creditJson.getInt("cash"),
+                    endDate = endDate
+            )
+            credits.add(credit)
+        }
+
+        return credits
     }
 }

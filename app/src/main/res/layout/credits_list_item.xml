@@ -14,50 +14,48 @@
             android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Дебютовая карта"
+            tools:text="Кредит наличными"
             android:textSize="12sp"/>
 
-        <ImageView
-            android:id="@+id/image_iv"
-            android:layout_width="30dp"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/mir"/>
-
         <TextView
-            android:id="@+id/num_tv"
+            android:id="@+id/platej_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="1234...4321"
-            android:textSize="12dp"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@id/image_iv"/>
+            android:text="Платёж "
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"/>
 
         <TextView
-            android:id="@+id/cash_tv"
+            android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="22000"
-            android:textSize="12dp"
-            android:layout_toStartOf="@id/rubs_tv"
-            android:layout_centerVertical="true"/>
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@id/platej_tv"
+            tools:text="12.12.2012"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/rubs_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" рублей"
-            android:textSize="12sp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:text=" рублей"/>
+
+        <TextView
+            android:id="@+id/cash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/rubs_tv"
+            android:layout_centerVertical="true"
+            tools:text="22000"/>
 
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

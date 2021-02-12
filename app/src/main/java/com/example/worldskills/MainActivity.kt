@@ -16,7 +16,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), LoginDialogFragment.OnSignInClickListener {
 
-    fun loadUsdEur() {
+    private fun loadUsdEur() {
         val valutes = CbrApi.loadValutes(Calendar.getInstance())
 
         var usd = "..."
@@ -36,16 +36,16 @@ class MainActivity : AppCompatActivity(), LoginDialogFragment.OnSignInClickListe
         }
     }
 
-    fun loginQuery(login: String, password: String) {
-        val userSecret = BankApi.login(login, password)
+    private fun loginQuery(login: String, password: String) {
+        val token = BankApi.login(login, password)
 
-        if (userSecret == null)
+        if (token == null)
             Handler(Looper.getMainLooper()).post {
                 loginDialog.setError("Не правильное имя пользователя или пароль")
             }
         else {
             val intent = Intent(this, UserActivity::class.java)
-            intent.putExtra("user_secret", userSecret)
+            intent.putExtra("token", token)
             startActivity(intent)
 
             loginDialog.dismiss()

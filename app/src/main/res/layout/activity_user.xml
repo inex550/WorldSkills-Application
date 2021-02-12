@@ -31,6 +31,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/user_action_bar_search_et_backgroud"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:hint="Search people &amp; places"
             android:textSize="12sp"
             android:padding="8dp"/>
