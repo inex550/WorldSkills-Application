@@ -9,16 +9,20 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.0.34:8080"
+    private const val BASE_URL = "http://192.168.1.107:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
     private const val LOGIN_METHOD = "/login"
     private const val LOGOUT_METHOD = "/logout"
 
+    private const val GETUSER_METHOD = "/getuser"
     private const val GETCARDS_METHOD = "/getcards"
     private const val GETCHECKS_METHOD = "/getcheck"
     private const val GETCREDITS_METHOD = "/getcredits"
+
+    private const val EDITLOGIN_METHOD = "/editelogin"
+    private const val EDITPASSWORD_METHOD = "/editepassword"
 
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
@@ -54,7 +58,7 @@ object BankApi {
     }
 
     fun loadValutes(): Map<String, BankValute> {
-        val (code, response) = NetworkService.get(BASE_URL + VALUTE_METHOD)
+        val (_, response) = NetworkService.get(BASE_URL + VALUTE_METHOD)
 
         val valutes = mutableMapOf<String, BankValute>()
 
@@ -79,7 +83,7 @@ object BankApi {
                 .put("login", login)
                 .put("password", password)
 
-        val (code, response) = NetworkService.postJson(BASE_URL + LOGIN_METHOD, requestJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + LOGIN_METHOD, "POST", requestJson)
 
         if (code != 200)
             return null
@@ -91,14 +95,29 @@ object BankApi {
         val tokenJson = JSONObject()
             .put("token", token)
 
-        val (code, _) = NetworkService.deleteJson(BASE_URL + LOGOUT_METHOD, tokenJson)
+        val (code, _) = NetworkService.doJson(BASE_URL + LOGOUT_METHOD, "DELETE", tokenJson)
 
         return code == 200
     }
 
+    fun getUser(token: String): UserInfo? {
+        val tokenJson = JSONObject().put("token", token)
+        val (code, response) = NetworkService.doJson(BASE_URL + GETUSER_METHOD, "POST", tokenJson)
+
+        if (code != 200) return null
+
+        val userInfoJson = JSONObject(response)
+
+        return UserInfo(
+            firstName = userInfoJson.getString("first_name"),
+            lastName = userInfoJson.getString("last_name"),
+            patronymic = userInfoJson.getString("patronymic")
+        )
+    }
+
     fun getCards(token: String): List<Card>? {
         val tokenJson = JSONObject().put("token", token)
-        val (code, response) = NetworkService.postJson(BASE_URL + GETCARDS_METHOD, tokenJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + GETCARDS_METHOD, "POST", tokenJson)
 
         if (code != 200) return null
 
@@ -121,7 +140,7 @@ object BankApi {
 
     fun getChecks(token: String): List<Check>? {
         val tokenJson = JSONObject().put("token", token)
-        val (code, response) = NetworkService.postJson(BASE_URL + GETCHECKS_METHOD, tokenJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + GETCHECKS_METHOD, "POST", tokenJson)
 
         if (code != 200) return null
 
@@ -142,7 +161,7 @@ object BankApi {
 
     fun getCredits(token: String): List<Credit>? {
         val tokenJson = JSONObject().put("token", token)
-        val (code, response) = NetworkService.postJson(BASE_URL + GETCREDITS_METHOD, tokenJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + GETCREDITS_METHOD, "POST", tokenJson)
 
         if (code != 200) return null
 
@@ -164,5 +183,24 @@ object BankApi {
         }
 
         return credits
+    }
+
+    fun editLogin(token: String, login: String): Boolean {
+        val tokenJson = JSONObject()
+                .put("token", token)
+                .put("login", login)
+        val (code, _) = NetworkService.doJson(BASE_URL + EDITLOGIN_METHOD, "PUT", tokenJson)
+
+        return code == 200
+    }
+
+    fun editPassword(token: String, password: String): Boolean {
+        val tokenJson = JSONObject()
+                .put("token", token)
+                .put("password", password)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + EDITPASSWORD_METHOD, "PUT", tokenJson)
+
+        return code == 200
     }
 }

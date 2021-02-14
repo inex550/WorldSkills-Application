@@ -62,6 +62,10 @@ class HomeFragment : Fragment() {
         checksAdapter = ChecksAdapter()
         creditsAdapter = CreditsAdapter()
 
+        binding.cardsListRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.checksListRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.creditsListRv.layoutManager = LinearLayoutManager(requireContext())
+
         binding.cardsListRv.adapter = cardsAdapter
         binding.checksListRv.adapter = checksAdapter
         binding.creditsListRv.adapter = creditsAdapter

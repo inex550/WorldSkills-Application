@@ -16,34 +16,15 @@ object NetworkService {
         }
     }
 
-    fun postJson(url: String, json: JSONObject, encoding: String="utf-8"): Pair<Int, String> {
+    fun doJson(url: String, method: String, json: JSONObject, encoding: String = "utf-8"): Pair<Int, String> {
         with (URL(url).openConnection() as HttpURLConnection) {
-            requestMethod = "POST"
-            setRequestProperty("Content-Type", "application/json; utf-8")
-
-            doOutput = true
-
-            val requestData = json.toString()
-
-            val osw = OutputStreamWriter(outputStream, encoding)
-            osw.write(requestData)
-            osw.close()
-
-            val connInputStream = if (responseCode >= 400) errorStream else inputStream
-
-            val isr = InputStreamReader(connInputStream, encoding)
-            return Pair(responseCode, isr.readText())
-        }
-    }
-
-    fun deleteJson(url: String, json: JSONObject, encoding: String="utf-8"): Pair<Int, String> {
-        with (URL(url).openConnection() as HttpURLConnection) {
-            requestMethod = "DELETE"
+            requestMethod = method
             setRequestProperty("Content-Type", "application/json")
+            setRequestProperty("Accept", "application/json")
 
             doOutput = true
 
-            val osw = OutputStreamWriter(outputStream, encoding)
+            val osw = OutputStreamWriter(outputStream)
             osw.write(json.toString())
             osw.close()
 

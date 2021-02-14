@@ -11,6 +11,7 @@
         android:padding="6dp">
 
         <TextView
+            android:id="@+id/current_score_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Текущий счёт"/>
@@ -21,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="****"
             android:textSize="12sp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_below="@id/current_score_tv"
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/num_tv"
@@ -29,8 +31,9 @@
             android:layout_height="wrap_content"
             tools:text="123456"
             android:textSize="12sp"
+            android:layout_below="@id/current_score_tv"
             android:layout_toEndOf="@id/dots_tv"
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/rubs_tv"
@@ -38,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text=" рублей"/>
+            android:text=" рублей"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/cash_tv"
@@ -46,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/rubs_tv"
             android:layout_centerVertical="true"
-            tools:text="22000"/>
+            tools:text="22000"
+            android:textSize="12sp"/>
 
     </RelativeLayout>
 

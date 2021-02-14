@@ -23,14 +23,16 @@
             android:layout_height="wrap_content"
             android:text="Платёж "
             android:textSize="12sp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_below="@id/name_tv"
+            android:layout_marginTop="6dp"/>
 
         <TextView
             android:id="@+id/date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_toEndOf="@id/platej_tv"
+            android:layout_below="@id/name_tv"
+            android:layout_marginTop="6dp"
             tools:text="12.12.2012"
             android:textSize="12sp"/>
 
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text=" рублей"/>
+            android:text=" рублей"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/cash_tv"
@@ -48,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@id/rubs_tv"
             android:layout_centerVertical="true"
-            tools:text="22000"/>
+            tools:text="22000"
+            android:textSize="12sp"/>
 
     </RelativeLayout>
 
