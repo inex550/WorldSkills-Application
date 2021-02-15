@@ -9,7 +9,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.224:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
@@ -20,6 +20,7 @@ object BankApi {
     private const val GETCARDS_METHOD = "/getcards"
     private const val GETCHECKS_METHOD = "/getcheck"
     private const val GETCREDITS_METHOD = "/getcredits"
+    private const val LASTLOGIN_METHOD = "/lastlogin"
 
     private const val EDITLOGIN_METHOD = "/editelogin"
     private const val EDITPASSWORD_METHOD = "/editepassword"
@@ -186,21 +187,51 @@ object BankApi {
     }
 
     fun editLogin(token: String, login: String): Boolean {
-        val tokenJson = JSONObject()
+        val requestJson = JSONObject()
                 .put("token", token)
                 .put("login", login)
-        val (code, _) = NetworkService.doJson(BASE_URL + EDITLOGIN_METHOD, "PUT", tokenJson)
+        val (code, _) = NetworkService.doJson(BASE_URL + EDITLOGIN_METHOD, "PUT", requestJson)
 
         return code == 200
     }
 
     fun editPassword(token: String, password: String): Boolean {
-        val tokenJson = JSONObject()
+        val requestJson = JSONObject()
                 .put("token", token)
                 .put("password", password)
 
-        val (code, _) = NetworkService.doJson(BASE_URL + EDITPASSWORD_METHOD, "PUT", tokenJson)
+        val (code, _) = NetworkService.doJson(BASE_URL + EDITPASSWORD_METHOD, "PUT", requestJson)
 
         return code == 200
+    }
+
+    fun lastLogin(token: String): List<LastLogin>? {
+        val tokenJson = JSONObject().put("token", token)
+        val (code, response) = NetworkService.doJson(BASE_URL + LASTLOGIN_METHOD, "POST", tokenJson)
+
+        if (code != 200) return null
+
+        val lastLoginsJson = JSONArray(response)
+
+        val lastLogins = mutableListOf<LastLogin>()
+
+        for (i in 0 until lastLoginsJson.length()) {
+            val lastLoginJson = lastLoginsJson.getJSONObject(i)
+
+            val date = Calendar.getInstance()
+            date.time = sdfDate.parse(lastLoginJson.getString("login_date"))!!
+
+            val time = Calendar.getInstance()
+            time.time = sdfTime.parse(lastLoginJson.getString("login_time"))!!
+
+            val lastLogin = LastLogin(
+                    date = date,
+                    time = time
+            )
+
+            lastLogins.add(lastLogin)
+        }
+
+        return lastLogins
     }
 }

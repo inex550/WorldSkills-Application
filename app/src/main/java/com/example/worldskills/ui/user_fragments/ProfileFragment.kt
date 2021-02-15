@@ -1,6 +1,9 @@
 package com.example.worldskills.ui.user_fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +26,23 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
             return
         }
 
+        Handler(Looper.getMainLooper()).post {
+            val token = (requireActivity() as UserActivity).token
+
+            if (type == ChangeDataDialog.LOGIN && BankApi.editLogin(token, data))
+                cdd.dismiss()
+            else if (type == ChangeDataDialog.PASSWORD && BankApi.editPassword(token, data))
+                cdd.dismiss()
+        }
+    }
+
+    private fun logout() {
         val token = (requireActivity() as UserActivity).token
 
-        if (type == ChangeDataDialog.LOGIN && BankApi.editLogin(token, data))
-            cdd.dismiss()
-        else if (type == ChangeDataDialog.PASSWORD && BankApi.editPassword(token, data))
-            cdd.dismiss()
+        if (BankApi.logout(token))
+            Handler(Looper.getMainLooper()).post {
+                (requireActivity() as UserActivity).finish()
+            }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +56,18 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
         binding.changeLoginRl.setOnClickListener {
             cdd = ChangeDataDialog(this, ChangeDataDialog.LOGIN)
             cdd.show(requireActivity().supportFragmentManager, "dialog")
+        }
+
+        binding.logIoHistory.setOnClickListener {
+            (requireActivity() as UserActivity).addFragment(LoginHistoryFragment())
+        }
+
+        binding.applicationInfoRl.setOnClickListener {
+            (requireActivity() as UserActivity).addFragment(AppInfoFragment())
+        }
+
+        binding.exitRl.setOnClickListener {
+            Thread { logout() }.start()
         }
 
         return binding.root
