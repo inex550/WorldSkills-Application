@@ -40,9 +40,9 @@ class BankomatAdapter(
         }
 
         override fun onClick(view: View?) {
-            val position = bindingAdapterPosition
+            val position = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(bindingAdapterPosition)
+                listener.onItemClick(adapterPosition)
             }
         }
     }

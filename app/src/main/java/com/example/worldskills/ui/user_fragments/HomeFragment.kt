@@ -9,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worldskills.databinding.FragmentHomeBinding
+import com.example.worldskills.models.Card
 import com.example.worldskills.network.BankApi
 import com.example.worldskills.ui.UserActivity
 import com.example.worldskills.ui.adapters.CardsAdapter
 import com.example.worldskills.ui.adapters.ChecksAdapter
 import com.example.worldskills.ui.adapters.CreditsAdapter
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), CardsAdapter.OnCardClickListener {
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -58,7 +59,7 @@ class HomeFragment : Fragment() {
 
         token = (requireActivity() as UserActivity).token
 
-        cardsAdapter = CardsAdapter()
+        cardsAdapter = CardsAdapter(this)
         checksAdapter = ChecksAdapter()
         creditsAdapter = CreditsAdapter()
 
@@ -80,5 +81,10 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onCardClick(card: Card) {
+        val cards = cardsAdapter.data.filter { listCard -> listCard != card }
+        (requireActivity() as UserActivity).addFragment(CardFragment(card, cards))
     }
 }

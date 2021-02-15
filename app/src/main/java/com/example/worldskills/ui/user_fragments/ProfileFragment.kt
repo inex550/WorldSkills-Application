@@ -45,7 +45,7 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
             }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
         binding.changePasswordRl.setOnClickListener {

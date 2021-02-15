@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_dark1">
+
+    <RelativeLayout
+        android:id="@+id/swipe_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:background="@color/purple">
+
+        <RelativeLayout
+            android:id="@+id/card_rl"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:padding="22dp"
+            android:background="@drawable/card_background">
+
+            <TextView
+                android:id="@+id/card_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Дебютовая карта"
+                android:textSize="12sp"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/card_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="1234****4321"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                android:layout_below="@id/card_name_tv"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/card_cash_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                tools:text="22000"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/card_rubs_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" рублей"
+                android:textColor="@color/blue"
+                android:textSize="12sp"
+                android:layout_marginBottom="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@id/card_cash_tv"/>
+
+            <ImageView
+                android:id="@+id/card_type_iv"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                tools:src="@drawable/mir"
+                android:scaleType="centerCrop"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/add_cash_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_rl"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:text="Пополнить"
+            android:textSize="12sp"
+            android:backgroundTint="@android:color/holo_red_light"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/send_cash_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_rl"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Перевести"
+            android:textSize="12sp"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:textAllCaps="false"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/operation_history_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="История операций"
+        android:textColor="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/white_ripple_btn"
+        android:padding="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/block_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Заблокировать"
+        android:textColor="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/white_ripple_btn"
+        android:padding="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/rename_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Переименовать"
+        android:textColor="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/white_ripple_btn"
+        android:padding="12dp"/>
+
+</LinearLayout>
