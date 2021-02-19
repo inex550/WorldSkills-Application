@@ -19,6 +19,7 @@ class UserActivity : AppCompatActivity() {
     lateinit var binding: ActivityUserBinding
 
     lateinit var token: String
+    lateinit var password: String
 
     fun logoutUser() {
         val res = BankApi.logout(token)
@@ -44,6 +45,7 @@ class UserActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         token = intent.getStringExtra("token")!!
+        password = intent.getStringExtra("password")!!
 
         Thread { loadUserInfo() }.start()
 
@@ -96,7 +98,7 @@ class UserActivity : AppCompatActivity() {
 
     fun addFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
     }

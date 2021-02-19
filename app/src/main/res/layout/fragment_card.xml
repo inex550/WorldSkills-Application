@@ -72,6 +72,16 @@
                 tools:src="@drawable/mir"
                 android:scaleType="centerCrop"/>
 
+            <TextView
+                android:id="@+id/card_blocked_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Карта заблокирована"
+                android:textColor="@android:color/holo_red_light"
+                android:layout_centerInParent="true"
+                android:textSize="24sp"
+                android:visibility="gone"/>
+
         </RelativeLayout>
 
         <Button
@@ -101,47 +111,55 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/operation_history_tv"
+    <LinearLayout
+        android:id="@+id/card_btn_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="История операций"
-        android:textColor="@color/blue"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/white_ripple_btn"
-        android:padding="12dp"/>
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray_light"/>
+        <TextView
+            android:id="@+id/operation_history_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="История операций"
+            android:textColor="@color/blue"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/white_ripple_btn"
+            android:padding="12dp"/>
 
-    <TextView
-        android:id="@+id/block_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Заблокировать"
-        android:textColor="@color/blue"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/white_ripple_btn"
-        android:padding="12dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray_light"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/gray_light"/>
+        <TextView
+            android:id="@+id/block_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Заблокировать"
+            android:textColor="@color/blue"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/white_ripple_btn"
+            android:padding="12dp"/>
 
-    <TextView
-        android:id="@+id/rename_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Переименовать"
-        android:textColor="@color/blue"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/white_ripple_btn"
-        android:padding="12dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray_light"/>
+
+        <TextView
+            android:id="@+id/rename_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Переименовать"
+            android:textColor="@color/blue"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/white_ripple_btn"
+            android:padding="12dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

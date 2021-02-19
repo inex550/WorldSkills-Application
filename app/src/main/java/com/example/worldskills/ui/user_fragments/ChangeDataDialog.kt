@@ -3,13 +3,18 @@ package com.example.worldskills.ui.user_fragments
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
 import com.example.worldskills.databinding.ChangeDataDialogBinding
 
 class ChangeDataDialog(
         private val listener: OnChangeDataClickListener,
-        val type: Int
+        private val title: String,
+        private val hint: String,
+        private val posBtnHint: String,
+        private val message: String? = "",
+        private val inputType: Int = InputType.TYPE_CLASS_TEXT
 ): DialogFragment() {
 
     private var _binding: ChangeDataDialogBinding? = null
@@ -23,31 +28,21 @@ class ChangeDataDialog(
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = ChangeDataDialogBinding.inflate(LayoutInflater.from(requireContext()))
 
-        val title = when(type) {
-            LOGIN -> "Изменение логина"
-            PASSWORD -> "Изменение пароля"
-            else -> "nan"
-        }
-
-        val hint = when(type) {
-            LOGIN -> "Логин"
-            PASSWORD -> "Пароль"
-            else -> "nan"
-        }
-
+        binding.loginEt.inputType = inputType
         binding.loginEt.hint = hint
 
         val dialog = AlertDialog.Builder(requireContext())
                 .setTitle(title)
+                .setMessage(message)
                 .setView(binding.root)
-                .setNegativeButton("Отмена", null)
-                .setPositiveButton("Изменить", null)
+                .setNegativeButton(posBtnHint, null)
+                .setPositiveButton("Отмена", null)
                 .show()
 
-        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        val btn = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
         btn.setOnClickListener {
             val data = binding.loginEt.text.toString()
-            listener.onChangeDataClick(type, data)
+            listener.onChangeDataClick(data, tag)
         }
 
         return dialog
@@ -59,7 +54,7 @@ class ChangeDataDialog(
     }
 
     interface OnChangeDataClickListener {
-        fun onChangeDataClick(type: Int, data: String)
+        fun onChangeDataClick(data: String, tag: String?)
     }
 
     companion object {

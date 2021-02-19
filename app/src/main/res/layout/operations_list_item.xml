@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Перевод на карту"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="10.10.2010"
+            android:textSize="12sp"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/rubs_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" рублей"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/cash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="200"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:layout_toStartOf="@id/rubs_tv"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_light"/>
+
+</LinearLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray_dark1">
+
+    <RelativeLayout
+        android:id="@+id/swipe_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:background="@color/purple">
+
+        <TextView
+            android:id="@+id/check_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Текущий счёт"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:id="@+id/money_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/check_name_tv"
+            android:layout_marginTop="72dp">
+
+
+            <TextView
+                android:id="@+id/check_cash_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="11000"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" рублей"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/check_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/money_ll"
+            tools:text="796872364873264"
+            android:textColor="@color/white"
+            android:layout_marginTop="72dp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/operation_history_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="История операций"
+        android:textColor="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/white_ripple_btn"
+        android:padding="12dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray_light"/>
+
+    <TextView
+        android:id="@+id/change_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Переменовать"
+        android:textColor="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/white_ripple_btn"
+        android:padding="12dp"/>
+
+</LinearLayout>
