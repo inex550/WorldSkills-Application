@@ -19,8 +19,8 @@ import com.example.worldskills.ui.UserActivity
 import kotlin.math.abs
 
 class CardFragment(
-    val card: Card,
-    val cards: List<Card>
+        private val card: Card,
+        private val cards: List<Card>
 ): Fragment(), ChangeDataDialog.OnChangeDataClickListener {
 
     var _binding: FragmentCardBinding? = null
@@ -41,6 +41,20 @@ class CardFragment(
                 uiBlock(true)
                 currentCard.blocked = true
             }
+            cdd.dismiss()
+        }
+    }
+
+    private fun renameCard(token: String, cardNum: String, newName: String) {
+        val nameChanged = BankApi.changeCardName(token, cardNum, newName)
+
+        Handler(Looper.getMainLooper()).post {
+            if (nameChanged) {
+                currentCard.name = newName
+                setCardData(currentCard)
+            } else
+                Toast.makeText(requireContext(), "Ошибка при изменении данных :(", Toast.LENGTH_SHORT).show()
+
             cdd.dismiss()
         }
     }
@@ -96,9 +110,25 @@ class CardFragment(
                 Toast.makeText(requireContext(), "Карта уже заблокирована", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             } else {
-                cdd = ChangeDataDialog(this, "Блокировка карты", "Пароль", "Заблокировать", "Вы уверены что хотите заблокировать карту", InputType.TYPE_TEXT_VARIATION_PASSWORD)
+                cdd = ChangeDataDialog(this,
+                        "Блокировка карты",
+                        "Пароль",
+                        "Заблокировать",
+                        "Вы уверены что хотите заблокировать карту",
+                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                )
                 cdd.show(requireActivity().supportFragmentManager, "card_block_dialog")
             }
+        }
+
+        binding.renameTv.setOnClickListener {
+            cdd = ChangeDataDialog(this,
+                "Переименование карты",
+                "Имя",
+                "Изменить",
+                "Введите новое название"
+            )
+            cdd.show(requireActivity().supportFragmentManager, "rename_card_dialog")
         }
 
         binding.operationHistoryTv.setOnClickListener {
@@ -140,9 +170,16 @@ class CardFragment(
             return
         }
 
-        if (data == (requireActivity() as UserActivity).password) {
-            val token = (requireActivity() as UserActivity).token
-            Thread { block(token, currentCard) }.start()
-        } else cdd.setError("Не правильный пароль")
+        val token = (requireActivity() as UserActivity).token
+
+        when (tag) {
+            "card_block_dialog" ->
+                if (data == (requireActivity() as UserActivity).password)
+                    Thread { block(token, currentCard) }.start()
+                else
+                    cdd.setError("Не правильный пароль")
+
+            "rename_card_dialog" -> Thread { renameCard(token, currentCard.num, data) }.start()
+        }
     }
 }

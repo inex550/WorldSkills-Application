@@ -21,6 +21,7 @@ class ChecksAdapter(
 
         fun bind(check: Check) {
             binding.numTv.text = check.num.takeLast(6)
+            binding.nameTv.text = check.name
             binding.cashTv.text = check.cash.toString()
         }
 

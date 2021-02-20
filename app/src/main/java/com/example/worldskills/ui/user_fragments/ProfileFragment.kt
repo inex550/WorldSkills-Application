@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
         binding.changePasswordRl.setOnClickListener {
-            cdd = ChangeDataDialog(this, "Изменение пароля", "Пароль", "Изменить", "Введите новый пароль")
+            cdd = ChangeDataDialog(this, "Изменение пароля", "Пароль", "Изменить", "Введите новый пароль", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
             cdd.show(requireActivity().supportFragmentManager, "password_dialog")
         }
 

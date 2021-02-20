@@ -29,6 +29,9 @@ object BankApi {
     const val CARD_HISTORY_METHOD = "/history/card"
     const val CHECK_HISTORY_METHOD = "/history/check"
 
+    const val RENAME_CARD_METHOD = "/card/changename"
+    const val RENAME_CHECK_METHOD = "/check/changename"
+
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
     val sdfDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -157,6 +160,7 @@ object BankApi {
             val checkJson = checksJson.getJSONObject(i)
             val check = Check(
                     num = checkJson.getString("num"),
+                    name = checkJson.getString("name"),
                     cash = checkJson.getInt("cash")
             )
             checks.add(check)
@@ -298,5 +302,27 @@ object BankApi {
         val (code, response) = NetworkService.doJson(BASE_URL + BLOCK_METHOD, "POST", requestJson)
 
         return code == 200 && JSONObject(response).getBoolean("ok")
+    }
+
+    fun changeCardName(token: String, cardNum: String, newName: String): Boolean {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number", cardNum)
+                .put("new_name", newName)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + RENAME_CARD_METHOD, "POST", requestJson)
+
+        return code == 200
+    }
+
+    fun changeCheckName(token: String, checkNum: String, newName: String): Boolean {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("check_number", checkNum)
+                .put("new_name", newName)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + RENAME_CHECK_METHOD, "POST", requestJson)
+
+        return code == 200
     }
 }

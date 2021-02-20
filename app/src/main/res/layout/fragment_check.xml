@@ -18,7 +18,7 @@
             android:id="@+id/check_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Текущий счёт"
+            tools:text="Текущий счёт"
             android:textColor="@color/white"/>
 
         <LinearLayout
