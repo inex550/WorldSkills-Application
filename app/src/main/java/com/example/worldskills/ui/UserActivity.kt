@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.example.worldskills.R
 import com.example.worldskills.databinding.ActivityUserBinding
@@ -96,7 +97,7 @@ class UserActivity : AppCompatActivity() {
 
     fun addFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
     }

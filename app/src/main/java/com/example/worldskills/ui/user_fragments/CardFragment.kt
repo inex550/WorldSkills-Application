@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.worldskills.R
 import com.example.worldskills.databinding.FragmentCardBinding
@@ -34,14 +35,14 @@ class CardFragment(
 
         setCardData(card)
 
-        binding.swipeRl.setOnTouchListener { v, event ->
+        binding.swipeRl.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) return@setOnTouchListener binding.swipeRl.onTouchEvent(event)
+
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> x1 = event.x
                 MotionEvent.ACTION_UP -> {
                     x2 = event.x
-                    if (abs(x1 - x2) > 150f) {
-
-                    }
+                    Toast.makeText(requireContext(), "Длина свайпа - ${abs(x1 - x2)}", Toast.LENGTH_SHORT).show()
                 }
             }
 
