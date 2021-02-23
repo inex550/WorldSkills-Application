@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="22dp"
+        android:background="@drawable/card_background">
+
+        <TextView
+            android:id="@+id/card_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Дебютовая карта"
+            android:textSize="12sp"
+            android:textColor="@color/blue"/>
+
+        <TextView
+            android:id="@+id/card_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1234****4321"
+            android:textColor="@color/blue"
+            android:textSize="12sp"
+            android:layout_below="@id/card_name_tv"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/card_cash_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="22000"
+            android:layout_marginTop="100dp"
+            android:textColor="@color/blue"
+            android:textSize="12sp"
+            android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:id="@+id/card_rubs_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text=" рублей"
+            android:textColor="@color/blue"
+            android:textSize="12sp"
+            android:layout_marginBottom="15dp"
+            android:layout_toEndOf="@id/card_cash_tv"/>
+
+        <ImageView
+            android:id="@+id/card_type_iv"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="70dp"
+            android:layout_alignParentEnd="true"
+            tools:src="@drawable/mir"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/card_blocked_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Карта заблокирована"
+            android:textColor="@android:color/holo_red_light"
+            android:layout_centerInParent="true"
+            android:textSize="24sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

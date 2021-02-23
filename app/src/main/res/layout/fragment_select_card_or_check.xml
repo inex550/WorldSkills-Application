@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/purple">
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/select_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:checkedButton="@id/check_cards_btn"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/check_cards_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="С карты"
+            android:textAllCaps="false"
+            android:textColor="@color/toggle_btn_text_color"
+            android:backgroundTint="@color/toggle_btn_tint"/>
+
+        <Button
+            android:id="@+id/check_checks_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Со счёта"
+            android:textAllCaps="false"
+            android:textColor="@color/toggle_btn_text_color"
+            android:backgroundTint="@color/toggle_btn_tint"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/items_list_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/select_toggle"/>
+
+</RelativeLayout>

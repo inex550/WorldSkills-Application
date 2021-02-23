@@ -9,7 +9,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.0.94:8080"
+    private const val BASE_URL = "http://192.168.1.107:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"

@@ -135,6 +135,10 @@ class CardFragment(
             (requireActivity() as UserActivity).addFragment(OperationsFragment(OperationsFragment.CARD, currentCard.num))
         }
 
+        binding.addCashBtn.setOnClickListener {
+            (requireActivity() as UserActivity).addFragment(SelectCardOrCheckFragment(currentCard))
+        }
+
         return binding.root
     }
 
