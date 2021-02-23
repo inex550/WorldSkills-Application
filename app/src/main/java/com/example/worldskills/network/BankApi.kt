@@ -9,7 +9,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.94:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
@@ -24,6 +24,13 @@ object BankApi {
 
     private const val EDITLOGIN_METHOD = "/editelogin"
     private const val EDITPASSWORD_METHOD = "/editepassword"
+    private const val BLOCK_METHOD = "/block"
+
+    const val CARD_HISTORY_METHOD = "/history/card"
+    const val CHECK_HISTORY_METHOD = "/history/check"
+
+    const val RENAME_CARD_METHOD = "/card/changename"
+    const val RENAME_CHECK_METHOD = "/check/changename"
 
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
@@ -131,7 +138,8 @@ object BankApi {
                     name = cardJson.getString("name"),
                     num = cardJson.getString("num"),
                     type = cardJson.getString("card_type"),
-                    cash = cardJson.getInt("cash")
+                    cash = cardJson.getInt("cash"),
+                    blocked = cardJson.getBoolean("blocked")
             )
             cards.add(card)
         }
@@ -152,6 +160,7 @@ object BankApi {
             val checkJson = checksJson.getJSONObject(i)
             val check = Check(
                     num = checkJson.getString("num"),
+                    name = checkJson.getString("name"),
                     cash = checkJson.getInt("cash")
             )
             checks.add(check)
@@ -233,5 +242,87 @@ object BankApi {
         }
 
         return lastLogins
+    }
+
+    fun getCardOperations(token: String, cardNum: String): List<Operation>? {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number", cardNum)
+
+        val (code, response) = NetworkService.doJson(BASE_URL+ CARD_HISTORY_METHOD, "POST", requestJson)
+
+        if (code != 200) return null
+
+        val cardOpsJson = JSONArray(response)
+        val cardOps = mutableListOf<Operation>()
+
+        for (i in 0 until cardOpsJson.length()) {
+            val cardOpJson = cardOpsJson.getJSONObject(i)
+            val cardOp = Operation(
+                    name = cardOpJson.getString("name"),
+                    date = sdfDate.parse(cardOpJson.getString("date"))!!,
+                    cash = cardOpJson.getInt("cash")
+            )
+            cardOps.add(cardOp)
+        }
+
+        return cardOps
+    }
+
+    fun getCheckOperation(token: String, checkNum: String): List<Operation>? {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("check_number", checkNum)
+
+        val (code, response) = NetworkService.doJson(BASE_URL+ CHECK_HISTORY_METHOD, "POST", requestJson)
+
+        if (code != 200) return null
+
+        val checkOpsJson = JSONArray(response)
+        val checkOps = mutableListOf<Operation>()
+
+        for (i in 0 until checkOpsJson.length()) {
+            val checkOpJson = checkOpsJson.getJSONObject(i)
+            val checkOp = Operation(
+                    name = checkOpJson.getString("name"),
+                    date = sdfDate.parse(checkOpJson.getString("date"))!!,
+                    cash = checkOpJson.getInt("cash")
+            )
+            checkOps.add(checkOp)
+        }
+
+        return checkOps
+    }
+
+    fun block(token: String, cardNum: String): Boolean {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number", cardNum)
+
+        val (code, response) = NetworkService.doJson(BASE_URL + BLOCK_METHOD, "POST", requestJson)
+
+        return code == 200 && JSONObject(response).getBoolean("ok")
+    }
+
+    fun changeCardName(token: String, cardNum: String, newName: String): Boolean {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number", cardNum)
+                .put("new_name", newName)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + RENAME_CARD_METHOD, "POST", requestJson)
+
+        return code == 200
+    }
+
+    fun changeCheckName(token: String, checkNum: String, newName: String): Boolean {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("check_number", checkNum)
+                .put("new_name", newName)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + RENAME_CHECK_METHOD, "POST", requestJson)
+
+        return code == 200
     }
 }

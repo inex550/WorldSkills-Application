@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="50dp">
+    android:layout_height="50dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/white_ripple_btn">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,10 +14,10 @@
         android:padding="6dp">
 
         <TextView
-            android:id="@+id/current_score_tv"
+            android:id="@+id/name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Текущий счёт"/>
+            tools:text="Текущий счёт"/>
 
         <TextView
             android:id="@+id/dots_tv"
@@ -22,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="****"
             android:textSize="12sp"
-            android:layout_below="@id/current_score_tv"
+            android:layout_below="@id/name_tv"
             android:layout_marginTop="4dp"/>
 
         <TextView
@@ -31,7 +34,7 @@
             android:layout_height="wrap_content"
             tools:text="123456"
             android:textSize="12sp"
-            android:layout_below="@id/current_score_tv"
+            android:layout_below="@id/name_tv"
             android:layout_toEndOf="@id/dots_tv"
             android:layout_marginTop="4dp"/>
 

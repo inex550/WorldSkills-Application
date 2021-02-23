@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity(), LoginDialogFragment.OnSignInClickListe
         else {
             val intent = Intent(this, UserActivity::class.java)
             intent.putExtra("token", token)
+            intent.putExtra("password", password)
             startActivity(intent)
 
             loginDialog.dismiss()

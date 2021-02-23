@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worldskills.databinding.FragmentHomeBinding
 import com.example.worldskills.models.Card
+import com.example.worldskills.models.Check
 import com.example.worldskills.network.BankApi
 import com.example.worldskills.ui.UserActivity
 import com.example.worldskills.ui.adapters.CardsAdapter
 import com.example.worldskills.ui.adapters.ChecksAdapter
 import com.example.worldskills.ui.adapters.CreditsAdapter
 
-class HomeFragment : Fragment(), CardsAdapter.OnCardClickListener {
+class HomeFragment : Fragment(), CardsAdapter.OnCardClickListener, ChecksAdapter.OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
 
@@ -60,7 +61,7 @@ class HomeFragment : Fragment(), CardsAdapter.OnCardClickListener {
         token = (requireActivity() as UserActivity).token
 
         cardsAdapter = CardsAdapter(this)
-        checksAdapter = ChecksAdapter()
+        checksAdapter = ChecksAdapter(this)
         creditsAdapter = CreditsAdapter()
 
         binding.cardsListRv.layoutManager = LinearLayoutManager(requireContext())
@@ -86,5 +87,10 @@ class HomeFragment : Fragment(), CardsAdapter.OnCardClickListener {
     override fun onCardClick(card: Card) {
         val cards = cardsAdapter.data.filter { listCard -> listCard != card }
         (requireActivity() as UserActivity).addFragment(CardFragment(card, cards))
+    }
+
+    override fun onItemClick(check: Check) {
+        val checks = checksAdapter.data.filter { listCheck -> listCheck != check }
+        (requireActivity() as UserActivity).addFragment(CheckFragment(check, checks))
     }
 }

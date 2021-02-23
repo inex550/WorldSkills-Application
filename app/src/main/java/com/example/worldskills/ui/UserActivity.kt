@@ -20,6 +20,7 @@ class UserActivity : AppCompatActivity() {
     lateinit var binding: ActivityUserBinding
 
     lateinit var token: String
+    lateinit var password: String
 
     fun logoutUser() {
         val res = BankApi.logout(token)
@@ -45,6 +46,7 @@ class UserActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         token = intent.getStringExtra("token")!!
+        password = intent.getStringExtra("password")!!
 
         Thread { loadUserInfo() }.start()
 

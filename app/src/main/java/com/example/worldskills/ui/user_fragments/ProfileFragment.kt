@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,19 +21,21 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
 
     lateinit var cdd: ChangeDataDialog
 
-    private fun editProfileData(type: Int, data: String) {
-        if (data.isEmpty()) {
-            cdd.setError("Поле не заполнено")
-            return
-        }
+    private fun editLogin(token: String, login: String) {
+        val isEdit = BankApi.editLogin(token, login)
 
         Handler(Looper.getMainLooper()).post {
-            val token = (requireActivity() as UserActivity).token
+            if (isEdit) cdd.dismiss()
+            else cdd.setError("Ошибка :(")
+        }
+    }
 
-            if (type == ChangeDataDialog.LOGIN && BankApi.editLogin(token, data))
-                cdd.dismiss()
-            else if (type == ChangeDataDialog.PASSWORD && BankApi.editPassword(token, data))
-                cdd.dismiss()
+    private fun editPassword(token: String, password: String) {
+        val isEdit = BankApi.editPassword(token, password)
+
+        Handler(Looper.getMainLooper()).post {
+            if (isEdit) cdd.dismiss()
+            else cdd.setError("Ошибка :(")
         }
     }
 
@@ -49,13 +52,13 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
         binding.changePasswordRl.setOnClickListener {
-            cdd = ChangeDataDialog(this, ChangeDataDialog.PASSWORD)
-            cdd.show(requireActivity().supportFragmentManager, "dialog")
+            cdd = ChangeDataDialog(this, "Изменение пароля", "Пароль", "Изменить", "Введите новый пароль", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+            cdd.show(requireActivity().supportFragmentManager, "password_dialog")
         }
 
         binding.changeLoginRl.setOnClickListener {
-            cdd = ChangeDataDialog(this, ChangeDataDialog.LOGIN)
-            cdd.show(requireActivity().supportFragmentManager, "dialog")
+            cdd = ChangeDataDialog(this, "Изменение логина", "Логин", "Изменить", "Введите новый логин")
+            cdd.show(requireActivity().supportFragmentManager, "login_dialog")
         }
 
         binding.logIoHistory.setOnClickListener {
@@ -79,9 +82,17 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
     }
 
 
-    override fun onChangeDataClick(type: Int, data: String) {
+    override fun onChangeDataClick(data: String, tag: String?) {
+        if (data.isEmpty()) {
+            cdd.setError("Данные не введены")
+            return
+        }
+
+        val token = (requireActivity() as UserActivity).token
+
         Thread {
-            editProfileData(type, data)
+            if (tag == "login_dialog") editLogin(token, data)
+            else if (tag == "password_dialog") editPassword(token, data)
         }.start()
     }
 }

@@ -23,13 +23,13 @@ class LoginDialogFragment(
         _binding = LoginDialogBinding.inflate(LayoutInflater.from(context))
         val dialog = AlertDialog.Builder(requireActivity())
             .setTitle("Авторизация")
-            .setMessage("Введите логин и пароль")
+            .setMessage("Введите Ваш логин и пароль")
             .setView(binding.root)
-            .setNegativeButton("Отмена", null)
-            .setPositiveButton("Добавить", null)
+            .setNegativeButton("Добавить", null)
+            .setPositiveButton("Отмена", null)
             .show()
 
-        val btn = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        val btn = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
         btn.setOnClickListener {
             val login = binding.loginEt.text.toString()
             val password = binding.passwordEt.text.toString()

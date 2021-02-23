@@ -1,20 +1,33 @@
 package com.example.worldskills.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.worldskills.databinding.ChecksListItemBinding
 import com.example.worldskills.models.Check
 
-class ChecksAdapter: RecyclerView.Adapter<ChecksAdapter.ViewHolder>() {
+class ChecksAdapter(
+    val listener: OnItemClickListener
+): RecyclerView.Adapter<ChecksAdapter.ViewHolder>() {
 
     inner class ViewHolder(
             val binding: ChecksListItemBinding
-    ): RecyclerView.ViewHolder(binding.root) {
+    ): RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+
+        init {
+            binding.root.setOnClickListener(this)
+        }
 
         fun bind(check: Check) {
             binding.numTv.text = check.num.takeLast(6)
+            binding.nameTv.text = check.name
             binding.cashTv.text = check.cash.toString()
+        }
+
+        override fun onClick(v: View?) {
+            val check = data[adapterPosition]
+            listener.onItemClick(check)
         }
     }
 
@@ -36,4 +49,8 @@ class ChecksAdapter: RecyclerView.Adapter<ChecksAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int = data.size
+
+    interface OnItemClickListener {
+        fun onItemClick(check: Check)
+    }
 }
