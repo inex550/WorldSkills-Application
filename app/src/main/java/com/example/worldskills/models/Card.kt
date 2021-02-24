@@ -4,6 +4,6 @@ data class Card(
     var name: String,
     val num: String,
     val type: String,
-    val cash: Int,
+    var cash: Int,
     var blocked: Boolean
 )

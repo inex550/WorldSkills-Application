@@ -24,7 +24,7 @@ object NetworkService {
 
             doOutput = true
 
-            val osw = OutputStreamWriter(outputStream)
+            val osw = OutputStreamWriter(outputStream, encoding)
             osw.write(json.toString())
             osw.close()
 
@@ -32,7 +32,7 @@ object NetworkService {
                 errorStream
             else inputStream
 
-            val isr = InputStreamReader(connInputStream)
+            val isr = InputStreamReader(connInputStream, encoding)
             val response = isr.readText()
 
             return Pair(responseCode, response)

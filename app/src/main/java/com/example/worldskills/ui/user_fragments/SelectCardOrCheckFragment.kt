@@ -49,7 +49,7 @@ class SelectCardOrCheckFragment(
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSelectCardOrCheckBinding.inflate(inflater, container, false)
 
         cardsAdapter = SelectCardListAdapter(this)
@@ -74,17 +74,25 @@ class SelectCardOrCheckFragment(
     private fun selectCards() {
         binding.itemsListRv.adapter = cardsAdapter
 
-        if (!this::cards.isInitialized) Thread {
-            loadCards()
-        }.start()
+        if (!this::cards.isInitialized) {
+            Thread { loadCards() }.start()
+            return
+        }
+
+        if (cardsAdapter.data.isEmpty() && cards.isNotEmpty())
+            cardsAdapter.data = cards
     }
 
     private fun selectChecks() {
         binding.itemsListRv.adapter = checksAdapter
 
-        if (!this::checks.isInitialized) Thread {
-            loadChecks()
-        }.start()
+        if (!this::checks.isInitialized) {
+            Thread { loadChecks() }.start()
+            return
+        }
+
+        if (checksAdapter.data.isEmpty() && checks.isNotEmpty())
+            checksAdapter.data = checks
     }
 
     override fun onDestroyView() {
@@ -92,11 +100,9 @@ class SelectCardOrCheckFragment(
         _binding = null
     }
 
-    override fun onItemClick(check: Check) {
-
-    }
+    override fun onItemClick(check: Check) {}
 
     override fun onCardsItemClick(card: Card) {
-
+        (requireActivity() as UserActivity).addFragment(SendCashFragment(card, currentCard))
     }
 }

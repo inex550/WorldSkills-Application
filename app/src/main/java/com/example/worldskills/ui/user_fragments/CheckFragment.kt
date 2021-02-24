@@ -51,7 +51,7 @@ class CheckFragment(
 
         setCheckData(currentCheck)
 
-        binding.swipeRl.setOnTouchListener { v, event ->
+        binding.swipeRl.setOnTouchListener { _, event ->
             return@setOnTouchListener when(event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     x1 = event.x

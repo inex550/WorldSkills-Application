@@ -32,6 +32,9 @@ object BankApi {
     const val RENAME_CARD_METHOD = "/card/changename"
     const val RENAME_CHECK_METHOD = "/check/changename"
 
+    const val REFILL_METHOD = "/refill"
+    const val PAY_METHOD = "/pay"
+
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
     val sdfDate = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -53,12 +56,12 @@ object BankApi {
             workEnd.time = sdfTime.parse(bnkJson.getString("work_end"))!!
 
             bnks.add(Bankomat(
-                street = bnkJson.getString("street"),
-                isWork = bnkJson.getBoolean("is_work"),
-                name = bnkJson.getString("name"),
-                workStart = workStart,
-                workEnd = workEnd,
-                geo = LatLng(bnkJson.getDouble("geo_lat"), bnkJson.getDouble("geo_lng"))
+                    street = bnkJson.getString("street"),
+                    isWork = bnkJson.getBoolean("is_work"),
+                    name = bnkJson.getString("name"),
+                    workStart = workStart,
+                    workEnd = workEnd,
+                    geo = LatLng(bnkJson.getDouble("geo_lat"), bnkJson.getDouble("geo_lng"))
             ))
         }
 
@@ -73,11 +76,11 @@ object BankApi {
         val valutesJson = JSONArray(response)
         for (i in 0 until valutesJson.length()) {
             val valuteJson = valutesJson.getJSONObject(i)
-            val charCode =valuteJson.getString("charCode")
+            val charCode = valuteJson.getString("charCode")
             val valute = BankValute(
-                buy = valuteJson.getDouble("buy"),
-                cell = valuteJson.getDouble("cell"),
-                charCode = charCode
+                    buy = valuteJson.getDouble("buy"),
+                    cell = valuteJson.getDouble("cell"),
+                    charCode = charCode
             )
 
             valutes[charCode] = valute
@@ -101,7 +104,7 @@ object BankApi {
 
     fun logout(token: String): Boolean {
         val tokenJson = JSONObject()
-            .put("token", token)
+                .put("token", token)
 
         val (code, _) = NetworkService.doJson(BASE_URL + LOGOUT_METHOD, "DELETE", tokenJson)
 
@@ -117,9 +120,9 @@ object BankApi {
         val userInfoJson = JSONObject(response)
 
         return UserInfo(
-            firstName = userInfoJson.getString("first_name"),
-            lastName = userInfoJson.getString("last_name"),
-            patronymic = userInfoJson.getString("patronymic")
+                firstName = userInfoJson.getString("first_name"),
+                lastName = userInfoJson.getString("last_name"),
+                patronymic = userInfoJson.getString("patronymic")
         )
     }
 
@@ -249,7 +252,7 @@ object BankApi {
                 .put("token", token)
                 .put("card_number", cardNum)
 
-        val (code, response) = NetworkService.doJson(BASE_URL+ CARD_HISTORY_METHOD, "POST", requestJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + CARD_HISTORY_METHOD, "POST", requestJson)
 
         if (code != 200) return null
 
@@ -274,7 +277,7 @@ object BankApi {
                 .put("token", token)
                 .put("check_number", checkNum)
 
-        val (code, response) = NetworkService.doJson(BASE_URL+ CHECK_HISTORY_METHOD, "POST", requestJson)
+        val (code, response) = NetworkService.doJson(BASE_URL + CHECK_HISTORY_METHOD, "POST", requestJson)
 
         if (code != 200) return null
 
@@ -324,5 +327,29 @@ object BankApi {
         val (code, _) = NetworkService.doJson(BASE_URL + RENAME_CHECK_METHOD, "POST", requestJson)
 
         return code == 200
+    }
+
+    fun refill(token: String, sourceCardNum: String, destCardNum: String, sum: Int): Int {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number_sourse", sourceCardNum)
+                .put("card_number_dest", destCardNum)
+                .put("sum", sum)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + REFILL_METHOD, "POST", requestJson)
+
+        return code
+    }
+
+    fun pay(token: String, sourceCardNum: String, destCheckNum: String, sum: Int): Int {
+        val requestJson = JSONObject()
+                .put("token", token)
+                .put("card_number_sourse", sourceCardNum)
+                .put("number_check", destCheckNum)
+                .put("sum", sum)
+
+        val (code, _) = NetworkService.doJson(BASE_URL + REFILL_METHOD, "POST", requestJson)
+
+        return code
     }
 }

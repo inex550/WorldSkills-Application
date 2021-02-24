@@ -73,7 +73,7 @@ class CardFragment(
         setCardData(currentCard)
         if (currentCard.blocked) uiBlock(true)
 
-        binding.swipeRl.setOnTouchListener { v, event ->
+        binding.swipeRl.setOnTouchListener { _, event ->
             return@setOnTouchListener when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     x1 = event.x
