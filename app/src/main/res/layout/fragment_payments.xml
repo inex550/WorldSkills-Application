@@ -6,16 +6,31 @@
     android:background="@color/purple_200"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/circle_white_background"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp"
-        android:layout_margin="32dp"
-        android:text="Шаблон"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_white_background"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp"
+            android:layout_margin="32dp"
+            android:text="Шаблон"/>
+
+        <TextView
+            android:id="@+id/see_all_shablons_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_all_shablons"
+            android:textColor="@color/white"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"/>
+
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"

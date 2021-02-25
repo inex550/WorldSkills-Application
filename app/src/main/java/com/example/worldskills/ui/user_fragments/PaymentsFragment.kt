@@ -48,6 +48,10 @@ class PaymentsFragment: Fragment() {
             (requireActivity() as UserActivity).loadFragment(PaymentFragment(payment))
         }
 
+        binding.seeAllShablonsTv.setOnClickListener {
+            (requireActivity() as UserActivity).addFragment(ShablonsFragment())
+        }
+
         return binding.root
     }
 
