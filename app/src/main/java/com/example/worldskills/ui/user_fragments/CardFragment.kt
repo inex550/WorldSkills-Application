@@ -136,7 +136,19 @@ class CardFragment(
         }
 
         binding.addCashBtn.setOnClickListener {
-            (requireActivity() as UserActivity).addFragment(SelectCardOrCheckFragment(currentCard))
+            val tempCards = cards.toMutableList()
+            tempCards.add(card)
+            tempCards.removeAll { card -> card.blocked || card == currentCard }
+
+            (requireActivity() as UserActivity).addFragment(SelectForAddCashFragment(currentCard, tempCards))
+        }
+
+        binding.sendCashBtn.setOnClickListener {
+            val tempCards = cards.toMutableList()
+            tempCards.add(card)
+            tempCards.removeAll { card -> card.blocked || card == currentCard }
+
+            (requireActivity() as UserActivity).addFragment(SelectForSendCashFragment( currentCard, tempCards ))
         }
 
         return binding.root

@@ -12,7 +12,6 @@ import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
 import com.example.worldskills.databinding.FragmentSendCashBinding
 import com.example.worldskills.models.Card
-import com.example.worldskills.models.Check
 import com.example.worldskills.network.BankApi
 import com.example.worldskills.ui.UserActivity
 
@@ -77,7 +76,7 @@ class SendCashFragment(
         return binding.root
     }
 
-    fun updateUI() {
+    private fun updateUI() {
         binding.sourceCashTv.text = sourceCard.cash.toString()
         binding.sourceNumTv.text = "${sourceCard.num.take(4)}****${sourceCard.num.takeLast(4)}"
 
@@ -90,13 +89,13 @@ class SendCashFragment(
         _binding = null
     }
 
-    override fun onChangeDataClick(password: String, tag: String?) {
-        if (password.isEmpty()) {
+    override fun onChangeDataClick(data: String, tag: String?) {
+        if (data.isEmpty()) {
             cddPassword.setError("Ничего не введено")
             return
         }
 
-        if (password != (requireActivity() as UserActivity).password) {
+        if (data != (requireActivity() as UserActivity).password) {
             cddPassword.setError("Не правильный пароль")
             return
         }

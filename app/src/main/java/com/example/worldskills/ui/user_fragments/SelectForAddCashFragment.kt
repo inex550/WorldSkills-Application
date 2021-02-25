@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worldskills.R
-import com.example.worldskills.databinding.FragmentSelectCardOrCheckBinding
+import com.example.worldskills.databinding.FragmentSelectForAddBinding
 import com.example.worldskills.models.Card
 import com.example.worldskills.models.Check
 import com.example.worldskills.network.BankApi
@@ -17,28 +17,18 @@ import com.example.worldskills.ui.UserActivity
 import com.example.worldskills.ui.adapters.ChecksAdapter
 import com.example.worldskills.ui.adapters.SelectCardListAdapter
 
-class SelectCardOrCheckFragment(
-        private val currentCard: Card
+class SelectForAddCashFragment(
+        private val selectedCard: Card,
+        private val cards: List<Card>
 ): Fragment(), ChecksAdapter.OnItemClickListener, SelectCardListAdapter.OnCardsItemClickListener {
 
-    private var _binding: FragmentSelectCardOrCheckBinding? = null
-    private val binding: FragmentSelectCardOrCheckBinding get() = _binding!!
+    private var _binding: FragmentSelectForAddBinding? = null
+    private val binding: FragmentSelectForAddBinding get() = _binding!!
 
-    private lateinit var cards: List<Card>
     private lateinit var checks: List<Check>
 
-    private lateinit var cardsAdapter: SelectCardListAdapter
-    private lateinit var checksAdapter: ChecksAdapter
-
-    private fun loadCards() {
-        val token = (requireActivity() as UserActivity).token
-        cards = BankApi.getCards(token)!!
-        cards = cards.filter { card -> !card.blocked && card.num != currentCard.num }
-
-        Handler(Looper.getMainLooper()).post {
-            cardsAdapter.data = cards
-        }
-    }
+    private val cardsAdapter = SelectCardListAdapter(this)
+    private val checksAdapter = ChecksAdapter(this)
 
     private fun loadChecks() {
         val token = (requireActivity() as UserActivity).token
@@ -50,10 +40,7 @@ class SelectCardOrCheckFragment(
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentSelectCardOrCheckBinding.inflate(inflater, container, false)
-
-        cardsAdapter = SelectCardListAdapter(this)
-        checksAdapter = ChecksAdapter(this)
+        _binding = FragmentSelectForAddBinding.inflate(inflater, container, false)
 
         binding.itemsListRv.layoutManager = LinearLayoutManager(requireContext())
 
@@ -74,12 +61,7 @@ class SelectCardOrCheckFragment(
     private fun selectCards() {
         binding.itemsListRv.adapter = cardsAdapter
 
-        if (!this::cards.isInitialized) {
-            Thread { loadCards() }.start()
-            return
-        }
-
-        if (cardsAdapter.data.isEmpty() && cards.isNotEmpty())
+        if (cardsAdapter.data.isEmpty())
             cardsAdapter.data = cards
     }
 
@@ -103,6 +85,6 @@ class SelectCardOrCheckFragment(
     override fun onItemClick(check: Check) {}
 
     override fun onCardsItemClick(card: Card) {
-        (requireActivity() as UserActivity).addFragment(SendCashFragment(card, currentCard))
+        (requireActivity() as UserActivity).addFragment(SendCashFragment(card, selectedCard))
     }
 }

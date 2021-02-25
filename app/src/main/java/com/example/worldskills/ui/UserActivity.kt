@@ -9,10 +9,12 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.worldskills.R
 import com.example.worldskills.databinding.ActivityUserBinding
 import com.example.worldskills.network.BankApi
 import com.example.worldskills.ui.user_fragments.HomeFragment
+import com.example.worldskills.ui.user_fragments.PaymentsFragment
 import com.example.worldskills.ui.user_fragments.ProfileFragment
 
 class UserActivity : AppCompatActivity() {
@@ -62,6 +64,7 @@ class UserActivity : AppCompatActivity() {
         binding.userBnv.setOnNavigationItemSelectedListener { item ->
             val fragment: Fragment = when(item.itemId) {
                 R.id.home_btv_item -> HomeFragment()
+                R.id.buys_btv_item -> PaymentsFragment()
 
                 else -> return@setOnNavigationItemSelectedListener false
             }
@@ -92,6 +95,8 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, fragment)
         ft.commit()

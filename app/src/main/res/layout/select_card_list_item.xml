@@ -2,17 +2,19 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
+    android:paddingStart="32dp"
+    android:paddingEnd="32dp"
     android:paddingBottom="24dp">
 
     <RelativeLayout
+        android:id="@+id/card_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="22dp"
+        android:clickable="true"
+        android:focusable="true"
         android:background="@drawable/card_background">
 
         <TextView

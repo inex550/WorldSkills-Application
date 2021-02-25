@@ -17,7 +17,7 @@ class SelectCardListAdapter(
     ): RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         init {
-            binding.root.setOnClickListener(this)
+            binding.cardRl.setOnClickListener(this)
         }
 
         fun bind(card: Card) {

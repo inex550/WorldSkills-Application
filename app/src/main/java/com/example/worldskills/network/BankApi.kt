@@ -9,7 +9,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.94:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
@@ -26,14 +26,15 @@ object BankApi {
     private const val EDITPASSWORD_METHOD = "/editepassword"
     private const val BLOCK_METHOD = "/block"
 
-    const val CARD_HISTORY_METHOD = "/history/card"
-    const val CHECK_HISTORY_METHOD = "/history/check"
+    private const val CARD_HISTORY_METHOD = "/history/card"
+    private const val CHECK_HISTORY_METHOD = "/history/check"
 
-    const val RENAME_CARD_METHOD = "/card/changename"
-    const val RENAME_CHECK_METHOD = "/check/changename"
+    private const val RENAME_CARD_METHOD = "/card/changename"
+    private const val RENAME_CHECK_METHOD = "/check/changename"
 
-    const val REFILL_METHOD = "/refill"
-    const val PAY_METHOD = "/pay"
+    private const val REFILL_METHOD = "/refill"
+    private const val PAY_METHOD = "/pay"
+    private const val CATEGORY_METHOD = "/category"
 
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
@@ -348,8 +349,32 @@ object BankApi {
                 .put("number_check", destCheckNum)
                 .put("sum", sum)
 
-        val (code, _) = NetworkService.doJson(BASE_URL + REFILL_METHOD, "POST", requestJson)
+        val (code, _) = NetworkService.doJson(BASE_URL + PAY_METHOD, "POST", requestJson)
 
         return code
+    }
+
+    fun loadCategory(token: String): List<Payment>? {
+        val requestJson = JSONObject()
+                .put("token", token)
+
+        val (code, response) = NetworkService.doJson(BASE_URL + CATEGORY_METHOD, "POST", requestJson)
+
+        if (code != 200) return null
+
+        val paymentsJson = JSONArray(response)
+        val payments = mutableListOf<Payment>()
+
+        for (i in 0 until paymentsJson.length()) {
+            val paymentJson = paymentsJson.getJSONObject(i)
+
+            val payment = Payment(
+                    name = paymentJson.getString("name")
+            )
+
+            payments.add(payment)
+        }
+
+        return payments
     }
 }
