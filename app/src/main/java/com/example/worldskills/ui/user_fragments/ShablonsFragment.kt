@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.worldskills.database.Crud
 import com.example.worldskills.database.DbHelper
 import com.example.worldskills.database.ShablonEntry
 import com.example.worldskills.databinding.FragmentShablonBinding
+import com.example.worldskills.ui.SwipeController
 import com.example.worldskills.ui.adapters.ShablonsAdapter
 
 class ShablonsFragment: Fragment() {
@@ -33,6 +35,11 @@ class ShablonsFragment: Fragment() {
 
         binding.shablonsListRv.layoutManager = LinearLayoutManager(requireContext())
         binding.shablonsListRv.adapter = adapter
+
+        val swipeController = SwipeController()
+
+        val itemTouchHelper = ItemTouchHelper(swipeController)
+        itemTouchHelper.attachToRecyclerView(binding.shablonsListRv)
 
         return binding.root
     }
