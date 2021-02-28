@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.worldskills.databinding.ShablonsListItemBinding
 import com.example.worldskills.models.Shablon
 
-class ShablonsAdapter: RecyclerView.Adapter<ShablonsAdapter.ViewHolder>() {
+class ShablonsAdapter(
+        private val controller: ShablonButtonsController
+): RecyclerView.Adapter<ShablonsAdapter.ViewHolder>() {
 
     inner class ViewHolder(
             private val binding: ShablonsListItemBinding
@@ -15,10 +17,28 @@ class ShablonsAdapter: RecyclerView.Adapter<ShablonsAdapter.ViewHolder>() {
 
         fun bind(shablon: Shablon) {
             binding.nameTv.text = shablon.name
+
+            binding.changeItemTv.setOnClickListener {
+                controller.onChangeClicked(adapterPosition)
+            }
+
+            binding.removeItemTv.setOnClickListener {
+                controller.onRemoveClicked(adapterPosition)
+            }
+        }
+
+        fun showButtons(show: Boolean) {
+            binding.btnsLl.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
-    var data: List<Shablon> = listOf()
+    abstract class ShablonButtonsController {
+        abstract fun onChangeClicked(position: Int)
+
+        abstract fun onRemoveClicked(position: Int)
+    }
+
+    var data = mutableListOf<Shablon>()
         set(value) {
             field = value
             notifyDataSetChanged()

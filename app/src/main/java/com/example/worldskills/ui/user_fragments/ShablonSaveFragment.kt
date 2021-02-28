@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.text.isDigitsOnly
 import androidx.fragment.app.Fragment
+import com.example.worldskills.database.Crud
 import com.example.worldskills.database.DbHelper
 import com.example.worldskills.database.ShablonEntry
 import com.example.worldskills.databinding.FragmentShablonSaveBinding
@@ -43,15 +44,9 @@ class ShablonSaveFragment(
             }
 
             val sum = sumStr.toInt()
+            shablon.sum = sum
 
-            val db = dbHelper.writableDatabase
-
-            val values = ContentValues().apply {
-                put("sum", sum)
-            }
-
-            db.update(ShablonEntry.TABLE_NAME, values, "id = ?", arrayOf(shablon.id.toString()))
-            db.close()
+            Crud.updateShablon(dbHelper, shablon)
 
             requireFragmentManager().popBackStack()
         }

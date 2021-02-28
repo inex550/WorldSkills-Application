@@ -13,6 +13,7 @@ import com.example.worldskills.database.DbHelper
 import com.example.worldskills.database.ShablonEntry
 import com.example.worldskills.databinding.FragmentShablonBinding
 import com.example.worldskills.ui.SwipeController
+import com.example.worldskills.ui.UserActivity
 import com.example.worldskills.ui.adapters.ShablonsAdapter
 
 class ShablonsFragment: Fragment() {
@@ -22,7 +23,7 @@ class ShablonsFragment: Fragment() {
 
     private lateinit var dbHelper: DbHelper
 
-    private val adapter = ShablonsAdapter()
+    private lateinit var adapter: ShablonsAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentShablonBinding.inflate(inflater, container, false)
@@ -30,7 +31,22 @@ class ShablonsFragment: Fragment() {
         dbHelper = DbHelper(requireContext())
         //addSimpleShablons(10)
 
-        val shablons = Crud.selectAllShablons(dbHelper)
+        val shablons = Crud.selectAllShablons(dbHelper).toMutableList()
+
+        adapter = ShablonsAdapter(object : ShablonsAdapter.ShablonButtonsController() {
+            override fun onChangeClicked(position: Int) {
+                val shablon = shablons[position]
+                (requireActivity() as UserActivity).addFragment(ShablonSaveFragment(shablon))
+            }
+
+            override fun onRemoveClicked(position: Int) {
+                Crud.deleteShablon(dbHelper, shablons[position])
+
+                shablons.removeAt(position)
+                adapter.notifyItemRemoved(position)
+            }
+        })
+
         adapter.data = shablons
 
         binding.shablonsListRv.layoutManager = LinearLayoutManager(requireContext())
