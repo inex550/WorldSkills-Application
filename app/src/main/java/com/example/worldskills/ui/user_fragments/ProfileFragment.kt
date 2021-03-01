@@ -51,6 +51,8 @@ class ProfileFragment: Fragment(), ChangeDataDialog.OnChangeDataClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
+        (requireActivity() as UserActivity).showSearch(false)
+
         binding.changePasswordRl.setOnClickListener {
             cdd = ChangeDataDialog(this, "Изменение пароля", "Пароль", "Изменить", "Введите новый пароль", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
             cdd.show(requireActivity().supportFragmentManager, "password_dialog")

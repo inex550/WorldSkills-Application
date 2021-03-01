@@ -25,7 +25,22 @@
             android:textColor="@color/white"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            tools:visibility="gone"
+            android:visibility="visible"
             android:padding="8dp"/>
+
+        <EditText
+            android:id="@+id/search_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Search"
+            android:drawableStart="@drawable/ic_search_small"
+            android:padding="8dp"
+            android:textSize="12sp"
+            android:background="@drawable/user_search_background"
+            tools:visibility="visible"
+            android:visibility="gone"/>
 
     </androidx.appcompat.widget.Toolbar>
 

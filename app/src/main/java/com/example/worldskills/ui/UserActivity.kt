@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import com.example.worldskills.databinding.ActivityUserBinding
 import com.example.worldskills.network.BankApi
 import com.example.worldskills.ui.user_fragments.HomeFragment
 import com.example.worldskills.ui.user_fragments.PaymentsFragment
+import com.example.worldskills.ui.user_fragments.PaysFragment
 import com.example.worldskills.ui.user_fragments.ProfileFragment
 
 class UserActivity : AppCompatActivity() {
@@ -65,6 +67,7 @@ class UserActivity : AppCompatActivity() {
             val fragment: Fragment = when(item.itemId) {
                 R.id.home_btv_item -> HomeFragment()
                 R.id.buys_btv_item -> PaymentsFragment()
+                R.id.history_btv_item -> PaysFragment()
 
                 else -> return@setOnNavigationItemSelectedListener false
             }
@@ -72,6 +75,16 @@ class UserActivity : AppCompatActivity() {
             loadFragment(fragment)
 
             return@setOnNavigationItemSelectedListener true
+        }
+    }
+
+    fun showSearch(show: Boolean) {
+        if (show) {
+            binding.searchEt.visibility = View.VISIBLE
+            binding.userInfoTv.visibility = View.GONE
+        } else {
+            binding.searchEt.visibility = View.GONE
+            binding.userInfoTv.visibility = View.VISIBLE
         }
     }
 
@@ -95,6 +108,7 @@ class UserActivity : AppCompatActivity() {
     }
 
     fun loadFragment(fragment: Fragment) {
+        showSearch(false)
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 
         val ft = supportFragmentManager.beginTransaction()

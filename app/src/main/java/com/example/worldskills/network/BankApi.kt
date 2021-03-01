@@ -9,7 +9,7 @@ import java.util.*
 
 object BankApi {
 
-    private const val BASE_URL = "http://192.168.1.107:8080"
+    private const val BASE_URL = "http://192.168.0.94:8080"
 
     private const val BANKOMATS_METHOD = "/bankomats"
     private const val VALUTE_METHOD = "/valute"
@@ -35,6 +35,8 @@ object BankApi {
     private const val REFILL_METHOD = "/refill"
     private const val PAY_METHOD = "/pay"
     private const val CATEGORY_METHOD = "/category"
+
+    private const val LASTPAYS_METHOD = "/lastpays"
 
 
     val sdfTime = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
@@ -376,5 +378,29 @@ object BankApi {
         }
 
         return payments
+    }
+
+    fun loadPaysHistory(token: String): List<Operation>? {
+        val requestJson = JSONObject()
+                .put("token", token)
+
+        val (code, response) = NetworkService.doJson(BASE_URL + LASTPAYS_METHOD, "POST", requestJson)
+
+        if (code != 200) return null
+
+        val paysJson = JSONArray(response)
+        val pays = mutableListOf<Operation>()
+
+        for (i in 0 until paysJson.length()) {
+            val payJson = paysJson.getJSONObject(i)
+            val pay = Operation(
+                    name = payJson.getString("name"),
+                    date = sdfDate.parse(payJson.getString("date"))!!,
+                    cash = payJson.getInt("cash")
+            )
+            pays.add(pay)
+        }
+
+        return pays
     }
 }
